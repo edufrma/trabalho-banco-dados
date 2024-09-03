@@ -27,3 +27,23 @@ export async function logoutUser(userId, token) {
   const result = await db.query(query, values);
   return result.rows[0]; 
 }
+
+export async function findUserByToken(token) {
+    const query = `
+      SELECT jogador.id AS user_id, jogador.nome, jogador.email
+      FROM jogador
+      JOIN sessao ON jogador.id = sessao.id_jogador
+      WHERE sessao.token = $1;
+    `;
+    const values = [token];
+    const result = await db.query(query, values);
+  
+    if (result.rows.length > 0) {
+      return {
+        id: result.rows[0].user_id,  
+        nome: result.rows[0].nome,
+        email: result.rows[0].email,
+      };
+    }
+    return null;
+}
