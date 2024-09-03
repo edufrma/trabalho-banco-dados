@@ -74,7 +74,7 @@ Para executar o projeto, siga as etapas abaixo:
 
 1. Clone o repositório do projeto:
    ```bash
-   git clone [[link_do_repositorio](https://github.com/edufrma/trabalho-banco-dados/]
+   git clone [(https://github.com/edufrma/trabalho-banco-dados/]
    ```
 
 2. Execute o script SQL para criar o banco de dados:
