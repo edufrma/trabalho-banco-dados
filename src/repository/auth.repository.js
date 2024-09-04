@@ -1,31 +1,49 @@
 import { db } from "../database.js";
 
-export async function findUserByName(name) {
-  const query = 'SELECT * FROM Jogador WHERE nome = $1';
-  const values = [name];
+export async function findUserByName(nome) {
+  const query = `
+    SELECT id, nome, senha
+    FROM jogador
+    WHERE nome = $1;
+  `;
+  const values = [nome];
   const result = await db.query(query, values);
+  
   return result.rows[0];
 }
 
-export async function createUser(name, hashedPassword) {
-  const query = 'INSERT INTO Jogador (name, senha) VALUES ($1, $2) RETURNING *';
-  const values = [name, hashedPassword];
+export async function createUser(nome, hashedPassword) {
+  const query = `
+    INSERT INTO jogador (nome, senha)
+    VALUES ($1, $2)
+    RETURNING id;
+  `;
+  const values = [nome, hashedPassword];
   const result = await db.query(query, values);
-  return result.rows[0]; 
+
+  return result.rows[0].id;
 }
 
 export async function createSession(token, userId) {
-  const query = 'INSERT INTO Sessao (token, id_jogador) VALUES ($1, $2) RETURNING *';
-  const values = [token, userId];
-  const result = await db.query(query, values);
-  return result.rows[0]; 
+  const expiration = new Date();
+  expiration.setHours(expiration.getHours() + 1); 
+
+  const query = `
+    INSERT INTO sessao (id_jogador, token, expiration)
+    VALUES ($1, $2, $3);
+  `;
+  const values = [userId, token, expiration];
+  await db.query(query, values);
 }
 
+
 export async function logoutUser(userId, token) {
-  const query = 'DELETE FROM Sessao WHERE id_jogador = $1 AND token = $2 RETURNING *';
+  const query = `
+    DELETE FROM sessao
+    WHERE id_jogador = $1 AND token = $2;
+  `;
   const values = [userId, token];
-  const result = await db.query(query, values);
-  return result.rows[0]; 
+  await db.query(query, values);
 }
 
 export async function findUserByToken(token) {
