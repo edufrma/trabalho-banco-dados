@@ -30,7 +30,7 @@ export async function logoutUser(userId, token) {
 
 export async function findUserByToken(token) {
     const query = `
-      SELECT jogador.id AS user_id, jogador.nome, jogador.email
+      SELECT jogador.id AS user_id, jogador.nome
       FROM jogador
       JOIN sessao ON jogador.id = sessao.id_jogador
       WHERE sessao.token = $1;
@@ -42,8 +42,8 @@ export async function findUserByToken(token) {
       return {
         id: result.rows[0].user_id,  
         nome: result.rows[0].nome,
-        email: result.rows[0].email,
       };
     }
     return null;
 }
+
