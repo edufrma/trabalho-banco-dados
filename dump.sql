@@ -130,7 +130,8 @@ CREATE TABLE Recompensa (
 CREATE TABLE Jogador (
     id SERIAL PRIMARY KEY,
     Nome VARCHAR(255),
-    Senha VARCHAR(255)
+    Senha VARCHAR(255),
+    Foto bytea
 );
 
 
