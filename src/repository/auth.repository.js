@@ -2,7 +2,7 @@ import { db } from "../database.js";
 
 export async function findUserByName(nome) {
   const query = `
-    SELECT id, nome, senha
+    SELECT id, nome, senha, foto
     FROM jogador
     WHERE nome = $1;
   `;
