@@ -12,17 +12,18 @@ export async function findUserByName(nome) {
   return result.rows[0];
 }
 
-export async function createUser(nome, hashedPassword) {
+export async function createUser(nome, hashedPassword, foto) {
   const query = `
-    INSERT INTO jogador (nome, senha)
-    VALUES ($1, $2)
+    INSERT INTO jogador (nome, senha, foto)
+    VALUES ($1, $2, $3)
     RETURNING id;
   `;
-  const values = [nome, hashedPassword];
+  const values = [nome, hashedPassword, foto];
   const result = await db.query(query, values);
 
   return result.rows[0].id;
 }
+
 
 export async function createSession(token, userId) {
   const expiration = new Date();
@@ -63,5 +64,15 @@ export async function findUserByToken(token) {
       };
     }
     return null;
+}
+
+export async function updateUserPhoto(userId, foto) {
+  const query = `
+    UPDATE jogador
+    SET foto = $1
+    WHERE id = $2;
+  `;
+  const values = [foto, userId];
+  await db.query(query, values);
 }
 

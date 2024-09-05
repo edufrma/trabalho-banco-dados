@@ -2,7 +2,8 @@ import * as authRepository from "../repository/auth.repository.js";
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
 
-export async function signUp(nome, senha) {
+
+export async function signUp(nome, senha, foto) {
   const existingUser = await authRepository.findUserByName(nome); 
   if (existingUser) {
     const error = new Error("Nome de usuário já cadastrado!");
@@ -11,8 +12,9 @@ export async function signUp(nome, senha) {
   }
 
   const hashedPassword = await bcrypt.hash(senha, 10);
-  await authRepository.createUser(nome, hashedPassword); 
+  await authRepository.createUser(nome, hashedPassword, foto); 
 }
+
 
 export async function signIn(nome, senha) {
   const user = await authRepository.findUserByName(nome); 
@@ -38,4 +40,8 @@ export async function signIn(nome, senha) {
 
 export async function logout(userId, token) {
   await authRepository.logoutUser(userId, token);
+}
+
+export async function updateUserPhoto(userId, foto) {
+  await authRepository.updateUserPhoto(userId, foto);
 }
