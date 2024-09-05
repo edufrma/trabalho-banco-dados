@@ -3,10 +3,13 @@ import multer from "multer";
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
-
 export async function signUp(req, res) {
   const { nome, senha } = req.body;
-  const foto = req.file ? req.file.buffer : null;
+  const foto = req.file ? req.file.buffer : null; 
+
+  if (!nome || !senha) {
+    return res.status(400).json({ message: '"nome" e "senha" são obrigatórios' });
+  }
 
   try {
     await authService.signUp(nome, senha, foto); 
@@ -16,18 +19,8 @@ export async function signUp(req, res) {
   }
 }
 
+
 export const uploadPhoto = upload.single('foto'); 
-
-// export async function signUp(req, res) {
-//   const { nome, senha } = req.body; 
-
-//   try {
-//     await authService.signUp(nome, senha); 
-//     res.sendStatus(201);
-//   } catch (error) {
-//     res.status(error.status || 500).send(error.message);
-//   }
-// }
 
 export async function signIn(req, res) {
   const { nome, senha } = req.body; 
