@@ -1,4 +1,8 @@
 import pg from 'pg';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import fs from 'fs';
+import path from 'path';
 
 const { Pool } = pg;
 
@@ -10,29 +14,40 @@ const pool = new Pool({
   port: 5432,
 });
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 async function seed() {
   try {
-    // await pool.query('DELETE FROM sessao;');
-    // await pool.query('DELETE FROM jogador;');
-    // await pool.query('DELETE FROM recompensa;');
-    // await pool.query('DELETE FROM participa_missoes;');
-    // await pool.query('DELETE FROM missoes;');
-    // await pool.query('DELETE FROM personagens_itens;');
-    // await pool.query('DELETE FROM armadura;');
-    // await pool.query('DELETE FROM arma;');
-    // await pool.query('DELETE FROM efeitos_itens;');
-    // await pool.query('DELETE FROM item;');
-    // await pool.query('DELETE FROM npc;');
-    // await pool.query('DELETE FROM combate;');
-    // await pool.query('DELETE FROM inimigo_habilidades;');
-    // await pool.query('DELETE FROM inimigo;');
-    // await pool.query('DELETE FROM personagem_habilidades;');
-    // await pool.query('DELETE FROM personagem;');
-    // await pool.query('DELETE FROM efeitos_habilidades;');
-    // await pool.query('DELETE FROM habilidades;');
-    // await pool.query('DELETE FROM classe;');
-    // await pool.query('DELETE FROM regiao;');
+    await pool.query('DELETE FROM sessao;');
+    await pool.query('DELETE FROM jogador;');
+    await pool.query('DELETE FROM recompensa;');
+    await pool.query('DELETE FROM participa_missoes;');
+    await pool.query('DELETE FROM missoes;');
+    await pool.query('DELETE FROM personagens_itens;');
+    await pool.query('DELETE FROM armadura;');
+    await pool.query('DELETE FROM arma;');
+    await pool.query('DELETE FROM efeitos_itens;');
+    await pool.query('DELETE FROM item;');
+    await pool.query('DELETE FROM npc;');
+    await pool.query('DELETE FROM combate;');
+    await pool.query('DELETE FROM inimigo_habilidades;');
+    await pool.query('DELETE FROM inimigo;');
+    await pool.query('DELETE FROM personagem_habilidades;');
+    await pool.query('DELETE FROM personagem;');
+    await pool.query('DELETE FROM efeitos_habilidades;');
+    await pool.query('DELETE FROM habilidades;');
+    await pool.query('DELETE FROM classe;');
+    await pool.query('DELETE FROM regiao;');
 
+    const imagePath = path.join(__dirname, 'src', 'assets', 'image.png');
+    const imageBuffer = fs.readFileSync(imagePath);
+
+    await pool.query(`
+      INSERT INTO Jogador (Nome, Senha, Foto) 
+      VALUES ($1, $2, $3)
+    `, ['TesteJogador', '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', imageBuffer]);
+    
     await pool.query(`
       INSERT INTO Regiao (Nome) VALUES 
       ('Underdark'),
