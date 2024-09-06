@@ -23,3 +23,12 @@ export async function createNPC(req, res) {
     res.status(500).send('Erro ao adicionar NPC');
   }
 }
+
+export async function getAllEnemies(req, res) {
+    try {
+      const enemies = await npcService.fetchAllEnemiesWithSkills();
+      res.status(200).json(enemies);
+    } catch (error) {
+      res.status(500).send('Error fetching enemies with skills');
+    }
+  }
