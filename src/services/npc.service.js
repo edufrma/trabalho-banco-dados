@@ -7,3 +7,8 @@ export async function fetchAllNPCsWithMissions() {
 export async function addNPC(nome, tipo) {
   return await npcRepository.createNPC(nome, tipo);
 }
+
+export async function fetchAllEnemiesWithSkills() {
+    return await npcRepository.getAllEnemiesWithSkills();
+}
+
