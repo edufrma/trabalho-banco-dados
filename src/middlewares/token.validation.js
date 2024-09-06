@@ -1,4 +1,4 @@
-import { findUserByToken } from "../repository/token.validation.js";
+import { findUserByToken } from '../repository/auth.repository.js';
 
 export async function tokenValidation(req, res, next) {
     const token = req.headers.authorization?.replace("Bearer ", "");

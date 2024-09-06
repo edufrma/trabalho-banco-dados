@@ -1,4 +1,4 @@
-import * as personagemService from '../services/character.service';
+import * as personagemService from '../services/character.service.js';
 
 export async function createPersonagem(req, res) {
     const { nome, nivel, nome_classe } = req.body;
@@ -32,17 +32,21 @@ export async function updatePersonagem(req, res) {
     const controladorId = res.locals.user.id; 
   
     try {
-      const personagem = await personagemService.getPersonagemById(id);
-  
-      if (personagem.Controlador !== controladorId) {
-        return res.status(403).send('Você não tem permissão para atualizar este personagem');
+        const personagem = await personagemService.getPersonagemById(id);
+    
+        if (!personagem) {
+          return res.status(404).send('Personagem não encontrado');
+        }
+    
+        if (personagem.controlador !== controladorId) { 
+          return res.status(403).send('Você não tem permissão para atualizar este personagem');
+        }
+    
+        await personagemService.updatePersonagem(id, nivel, nome_classe);
+        res.status(200).send('Personagem atualizado com sucesso!');
+      } catch (error) {
+        res.status(500).send(error.message);
       }
-  
-      await personagemService.updatePersonagem(id, nivel, nome_classe);
-      res.status(200).send('Personagem atualizado com sucesso!');
-    } catch (error) {
-      res.status(500).send(error.message);
-    }
 }
   
 export async function deletePersonagem(req, res) {
@@ -51,11 +55,14 @@ export async function deletePersonagem(req, res) {
   
     try {
       const personagem = await personagemService.getPersonagemById(id);
-  
-      if (personagem.Controlador !== controladorId) {
-        return res.status(403).send('Você não tem permissão para deletar este personagem');
-      }
-  
+        
+        if (!personagem) {
+            return res.status(404).send('Personagem não encontrado');
+        }
+        if (personagem.controlador !== controladorId) {
+            return res.status(403).send('Você não tem permissão para deletar este personagem');
+        }
+
       await personagemService.deletePersonagem(id);
       res.status(200).send('Personagem deletado com sucesso!');
     } catch (error) {

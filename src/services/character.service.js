@@ -1,4 +1,4 @@
-import * as personagemRepository from '../repository/personagem.repository.js';
+import * as personagemRepository from '../repository/character.repository.js';
 
 export async function createPersonagem(nome, nivel, nome_classe, controladorId) {
   return await personagemRepository.createPersonagem(nome, nivel, nome_classe, controladorId);
