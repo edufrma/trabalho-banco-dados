@@ -2,10 +2,11 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { db } from "./database.js";
-import authRouter from "./routers/auth.routers.js";
+import authRouter from "./routers/auth.router.js";
 import personagemRouter from "./routers/character.router.js";
 import npcRouter from "./routers/npc.router.js";
 import skillsRouter from "./routers/skills.router.js";
+import questsRouter from "./routers/quests.router.js";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(authRouter);
 app.use(personagemRouter);
 app.use(npcRouter);
 app.use(skillsRouter);
+app.use(questsRouter);
 
 const port = process.env.PORT || 4000;
 
