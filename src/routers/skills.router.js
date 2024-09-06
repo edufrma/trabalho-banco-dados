@@ -1,5 +1,5 @@
 import express from 'express';
-import { getEnemySkills } from '../controllers/skills.controller.js';
+import { getEnemySkills, getCharacterSkills } from '../controllers/skills.controller.js';
 
 const skillsRouter = express.Router();
 
