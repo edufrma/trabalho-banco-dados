@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { db } from "./database.js";
 import authRouter from "./routers/auth.routers.js";
 import personagemRouter from "./routers/character.router.js";
+import npcRouter from "./routers/npc.router.js";
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 app.use(authRouter);
 app.use(personagemRouter);
+app.use(npcRouter);
 
 const port = process.env.PORT || 4000;
 
