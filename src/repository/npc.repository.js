@@ -19,5 +19,16 @@ export async function createNPC(nome, tipo) {
     const values = [nome, tipo];
     const result = await db.query(query, values);
     return result.rows[0];
-  }
+}
+
+export async function getAllEnemiesWithSkills() {
+    const query = `
+      SELECT i.id AS inimigo_id, i.nome AS inimigo_nome, i.nivel, h.nome AS habilidade_nome, h.dano, h.custo
+      FROM inimigo i
+      LEFT JOIN inimigo_habilidades ih ON i.id = ih.id_inimigo
+      LEFT JOIN habilidades h ON ih.nome_habilidade = h.nome;
+    `;
+    const result = await db.query(query);
+    return result.rows;
+}
   
