@@ -211,7 +211,7 @@ async function seed() {
       ('2024-09-05 09:45:00', ${silvanusId}, ${buletteId}, ${astarionId}),
       ('2024-09-06 20:30:00', ${moonriseId}, ${hagId}, ${laezelId});
     `);
-    
+
     await pool.query(`
       INSERT INTO Participa_missoes (id_personagem, Nome_missao) VALUES 
       (${karlachId}, 'Find the Nightsong'),
@@ -224,19 +224,19 @@ async function seed() {
     await pool.query(`
       INSERT INTO Recompensa (Nome_missao, Nome_item, Quantidade) VALUES 
       ('Find the Nightsong', 'Sword of Justice', 1),
-      ('Save the Grove', 'Sorrow', 1),
+      ('Save the Grove', 'Amulet of Selune', 1),
       ('Rescue the Druid Halsin', 'Blooded Greataxe', 1),
-      ('Defeat the Hag', 'Amulet of Selune', 1),
-      ('Escape the Mind Flayer Ship', 'Boots of Speed', 1);
+      ('Defeat the Hag', 'Boots of Speed', 1),
+      ('Escape the Mind Flayer Ship', 'Crossbow', 1);
     `);
 
     await pool.query(`
       INSERT INTO Personagens_itens (id_personagem, Nome_item, Quantidade) VALUES 
       (${karlachId}, 'Sword of Justice', 1),
-      (${shadowheartId}, 'Sorrow', 1),
+      (${shadowheartId}, 'Amulet of Selune', 1),
       (${galeId}, 'Blooded Greataxe', 1),
-      (${astarionId}, 'Amulet of Selune', 1),
-      (${laezelId}, 'Boots of Speed', 1);
+      (${astarionId}, 'Boots of Speed', 1),
+      (${laezelId}, 'Crossbow', 1);
     `);
 
     console.log('Seed completed successfully');
