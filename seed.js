@@ -45,17 +45,26 @@ async function seed() {
 
     await pool.query(`
       INSERT INTO Jogador (Nome, Senha, Foto) 
-      VALUES ($1, $2, $3)
-    `, ['TesteJogador', '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', imageBuffer]);
-    
-    await pool.query(`
+      VALUES 
+        ('TesteJogador', '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', $1),
+        ('GamerKarlach', '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', $1),
+        ('ShadowheartFan', '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', $1),
+        ('ArcaneWizard', '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', $1),
+        ('RogueMaster', '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', $1);
+    `, [imageBuffer]);
+
+    const regioesResult = await pool.query(`
       INSERT INTO Regiao (Nome) VALUES 
       ('Underdark'),
       ('Grove of Silvanus'),
       ('Blighted Village'),
       ('Emerald Grove'),
-      ('Moonrise Towers');
+      ('Moonrise Towers')
+      RETURNING id;
     `);
+    
+    const [underdarkId, silvanusId, villageId, emeraldGroveId, moonriseId] = regioesResult.rows.map(row => row.id);
+    
 
     await pool.query(`
       INSERT INTO Classe (Nome, Recurso) VALUES 
@@ -90,11 +99,11 @@ async function seed() {
 
     const result = await pool.query(`
       INSERT INTO Personagem (Nome, Nivel, Controlador, Nome_classe) VALUES 
-      ('Karlach', 12, 'Jogador 1', 'Barbarian'),
-      ('Shadowheart', 10, 'Jogador 2', 'Cleric'),
-      ('Gale', 14, 'Jogador 3', 'Wizard'),
-      ('Astarion', 8, 'Jogador 4', 'Rogue'),
-      ('Lae''zel', 15, 'Jogador 5', 'Fighter')
+      ('Karlach', 12, 1, 'Barbarian'),
+      ('Shadowheart', 10, 2, 'Cleric'),
+      ('Gale', 14, 3, 'Wizard'),
+      ('Astarion', 8, 4, 'Rogue'),
+      ('Lae''zel', 15, 5, 'Fighter')
       RETURNING id;
     `);
 
@@ -129,7 +138,7 @@ async function seed() {
         (${buletteId}, 'Burrow Attack'),
         (${hagId}, 'Hex');
     `);
-  
+
     const npcResult = await pool.query(`
       INSERT INTO NPC (Nome, Tipo) VALUES 
       ('Volo', 'Quest Giver'),
@@ -192,6 +201,42 @@ async function seed() {
         ('Rescue the Druid Halsin', 'Rescue Halsin from the goblin camp', 'Find and rescue the druid Halsin from his captors', ${kaghaId}),
         ('Defeat the Hag', 'Kill Auntie Ethel', 'Defeat the hag in her lair deep in the swamp', ${mintharaId}),
         ('Escape the Mind Flayer Ship', 'Survive the attack and escape the ship', 'Escape from the ship of the Mind Flayers', ${halsinId});
+    `);
+
+    await pool.query(`
+      INSERT INTO Combate (Hora, id_regiao, id_inimigo, id_personagem) VALUES 
+      ('2024-09-01 14:30:00', ${underdarkId}, ${mindFlayerId}, ${karlachId}),
+      ('2024-09-02 16:00:00', ${villageId}, ${drowWarriorId}, ${shadowheartId}),
+      ('2024-09-03 11:15:00', ${emeraldGroveId}, ${goblinChiefId}, ${galeId}),
+      ('2024-09-05 09:45:00', ${silvanusId}, ${buletteId}, ${astarionId}),
+      ('2024-09-06 20:30:00', ${moonriseId}, ${hagId}, ${laezelId});
+    `);
+    
+    await pool.query(`
+      INSERT INTO Participa_missoes (id_personagem, Nome_missao) VALUES 
+      (${karlachId}, 'Find the Nightsong'),
+      (${shadowheartId}, 'Save the Grove'),
+      (${galeId}, 'Rescue the Druid Halsin'),
+      (${astarionId}, 'Defeat the Hag'),
+      (${laezelId}, 'Escape the Mind Flayer Ship');
+    `);
+
+    await pool.query(`
+      INSERT INTO Recompensa (Nome_missao, Nome_item, Quantidade) VALUES 
+      ('Find the Nightsong', 'Sword of Justice', 1),
+      ('Save the Grove', 'Sorrow', 1),
+      ('Rescue the Druid Halsin', 'Blooded Greataxe', 1),
+      ('Defeat the Hag', 'Amulet of Selune', 1),
+      ('Escape the Mind Flayer Ship', 'Boots of Speed', 1);
+    `);
+
+    await pool.query(`
+      INSERT INTO Personagens_itens (id_personagem, Nome_item, Quantidade) VALUES 
+      (${karlachId}, 'Sword of Justice', 1),
+      (${shadowheartId}, 'Sorrow', 1),
+      (${galeId}, 'Blooded Greataxe', 1),
+      (${astarionId}, 'Amulet of Selune', 1),
+      (${laezelId}, 'Boots of Speed', 1);
     `);
 
     console.log('Seed completed successfully');
