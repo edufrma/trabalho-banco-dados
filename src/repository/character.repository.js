@@ -1,12 +1,12 @@
 import { db } from "../database.js";
 
-export async function createPersonagem(nome, nivel, nome_classe, controladorId) {
+export async function createPersonagem(nome, nivel, nome_classe, controladorId, foto) {
   const query = `
-    INSERT INTO Personagem (Nome, Nivel, Nome_classe, Controlador)
-    VALUES ($1, $2, $3, $4)
-    RETURNING id;
+    INSERT INTO Personagem (Nome, Nivel, Nome_classe, Controlador, foto)
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING id, encode(foto, 'base64') AS foto;
   `;
-  const values = [nome, nivel, nome_classe, controladorId];
+  const values = [nome, nivel, nome_classe, controladorId, foto];
   const result = await db.query(query, values);
   
   return result.rows[0].id;
@@ -14,7 +14,7 @@ export async function createPersonagem(nome, nivel, nome_classe, controladorId) 
 
 export async function getPersonagensByControlador(controladorId) {
     const query = `
-      SELECT id, Nome, Nivel, Nome_classe
+      SELECT id, Nome, Nivel, Nome_classe, encode(foto, 'base64') AS foto
       FROM Personagem
       WHERE Controlador = $1;
     `;
@@ -22,10 +22,10 @@ export async function getPersonagensByControlador(controladorId) {
   
     return result.rows;
 }
-  
+
 export async function getPersonagemById(id) {
     const query = `
-      SELECT id, Nome, Nivel, Nome_classe, Controlador
+      SELECT id, Nome, Nivel, Nome_classe, Controlador, encode(foto, 'base64') AS foto
       FROM Personagem
       WHERE id = $1;
     `;
@@ -33,14 +33,14 @@ export async function getPersonagemById(id) {
   
     return result.rows[0];
 }
-  
-export async function updatePersonagem(id, nivel, nome_classe) {
+
+export async function updatePersonagem(id, nivel, nome_classe, foto) {
     const query = `
       UPDATE Personagem
-      SET Nivel = $1, Nome_classe = $2
-      WHERE id = $3;
+      SET Nivel = $1, Nome_classe = $2, foto = $3
+      WHERE id = $4;
     `;
-    const values = [nivel, nome_classe, id];
+    const values = [nivel, nome_classe, foto, id];
     await db.query(query, values);
 }
 
@@ -51,5 +51,3 @@ export async function deletePersonagem(id) {
     `;
     await db.query(query, [id]);
 }
-  
-  
