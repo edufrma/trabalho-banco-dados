@@ -4,6 +4,13 @@ CREATE TABLE Regiao (
     Foto BYTEA
 );
 
+CREATE TABLE Jogador (
+    id SERIAL PRIMARY KEY,
+    Nome VARCHAR(255),
+    Senha VARCHAR(255),
+    Foto bytea
+);
+
 CREATE TABLE Classe (
     Nome VARCHAR(255) PRIMARY KEY,
     Recurso VARCHAR(255)
@@ -60,7 +67,7 @@ CREATE TABLE Combate (
     id_regiao INTEGER,
     id_inimigo INTEGER,
     id_personagem INTEGER,
-    PRIMARY KEY (Hora, id_regiao, id_inimigo, id_personagem)
+    PRIMARY KEY (Hora, id_regiao, id_inimigo, id_personagem),
     FOREIGN KEY (id_regiao) REFERENCES Regiao(id),
     FOREIGN KEY (id_inimigo) REFERENCES Inimigo(id),
     FOREIGN KEY (id_personagem) REFERENCES Personagem(id)
@@ -133,12 +140,7 @@ CREATE TABLE Recompensa (
     FOREIGN KEY (Nome_item) REFERENCES Item(Nome)
 );
 
-CREATE TABLE Jogador (
-    id SERIAL PRIMARY KEY,
-    Nome VARCHAR(255),
-    Senha VARCHAR(255),
-    Foto bytea
-);
+
 
 CREATE TABLE Sessao (
     id SERIAL PRIMARY KEY,
