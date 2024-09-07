@@ -40,11 +40,11 @@ async function seed() {
     await pool.query('DELETE FROM regiao;');
 
     const jogadores = [
-      { nome: 'TesteJogador', senha: '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', foto: 'testejogador.png' },
-      { nome: 'GamerKarlach', senha: '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', foto: 'karlach.png' },
-      { nome: 'ShadowheartFan', senha: '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', foto: 'shadowheart.png' },
-      { nome: 'ArcaneWizard', senha: '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', foto: 'gale.png' },
-      { nome: 'RogueMaster', senha: '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', foto: 'astarion.png' },
+      { nome: 'TesteJogador', senha: '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', foto: 'image.png' },
+      { nome: 'GamerKarlach', senha: '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', foto: 'image.png' },
+      { nome: 'ShadowheartFan', senha: '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', foto: 'image.png' },
+      { nome: 'ArcaneWizard', senha: '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', foto: 'image.png' },
+      { nome: 'RogueMaster', senha: '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', foto: 'image.png' },
     ];
 
     const loadImage = (filename) => {
@@ -62,11 +62,11 @@ async function seed() {
     `, jogadorBuffers);
 
     const regioes = [
-      { nome: 'Underdark', foto: 'underdark.png' },
-      { nome: 'Grove of Silvanus', foto: 'grove_of_silvanus.png' },
-      { nome: 'Blighted Village', foto: 'blighted_village.png' },
-      { nome: 'Emerald Grove', foto: 'emerald_grove.png' },
-      { nome: 'Moonrise Towers', foto: 'moonrise_towers.png' },
+      { nome: 'Underdark', foto: 'underdark.jpg' },
+      { nome: 'Astral Plane', foto: 'astral.jpg' },
+      { nome: 'Blighted Village', foto: 'blighted.jpg' },
+      { nome: 'Emerald Grove', foto: 'grove.png' },
+      { nome: 'Moonrise Towers', foto: 'moonrise.jpg' },
     ];
 
     const regioesBuffers = regioes.map(regiao => loadImage(regiao.foto));
@@ -86,20 +86,22 @@ async function seed() {
         ('Cleric', 'Divine Power'),
         ('Wizard', 'Mana'),
         ('Rogue', 'Sneak Attack'),
-        ('Fighter', 'Action Surge');
+        ('Fighter', 'Action Surge'),
+        ('Druid', 'Wild Shape'),
+        ('Warlock', 'Pact Magic'); 
     `);
 
     await pool.query(`
       INSERT INTO Habilidades (Nome, Custo, Dano) VALUES 
-        ('Cleave', 10, 40), -- Barbarian
-        ('Turn Undead', 15, 0), -- Cleric
-        ('Fireball', 20, 60), -- Wizard
-        ('Sneak Attack', 5, 25), -- Rogue
-        ('Second Wind', 10, 0), -- Fighter
-        ('Mind Blast', 25, 50), -- Inimigo: Mind Flayer
-        ('Darkness', 15, 0), -- Inimigo: Drow Warrior
-        ('Burrow Attack', 20, 30), -- Inimigo: Bulette
-        ('Hex', 10, 15); -- Inimigo: Hag
+        ('Cleave', 10, 40), 
+        ('Turn Undead', 15, 0), 
+        ('Fireball', 20, 60), 
+        ('Sneak Attack', 5, 25), 
+        ('Second Wind', 10, 0), 
+        ('Mind Blast', 25, 50),
+        ('Darkness', 15, 0), 
+        ('Burrow Attack', 20, 30), 
+        ('Hex', 10, 15);
     `);
 
     await pool.query(`
@@ -116,7 +118,9 @@ async function seed() {
       { nome: 'Shadowheart', nivel: 10, controlador: 1, classe: 'Cleric', foto: 'shadowheart.png' },
       { nome: 'Gale', nivel: 14, controlador: 1, classe: 'Wizard', foto: 'gale.png' },
       { nome: 'Astarion', nivel: 8, controlador: 1, classe: 'Rogue', foto: 'astarion.png' },
-      { nome: 'Lae\'zel', nivel: 15, controlador: 1, classe: 'Fighter', foto: 'laezel.png' },
+      { nome: `Lae''zel`, nivel: 15, controlador: 1, classe: 'Fighter', foto: 'laezel.png' },
+      { nome: 'Wyll', nivel: 15, controlador: 1, classe: 'Fighter', foto: 'wyll.png'},
+      { nome: 'Halsin', nivel: 20, controlador: 1, classe: 'Druid', foto: 'halsin.png'},
     ];
 
     const personagensBuffers = personagens.map(personagem => loadImage(personagem.foto));
@@ -140,9 +144,9 @@ async function seed() {
     `);
 
     const inimigos = [
-      { nome: 'Mind Flayer', nivel: 18, foto: 'mind_flayer.png' },
-      { nome: 'Drow Warrior', nivel: 12, foto: 'drow_warrior.png' },
-      { nome: 'Goblin Chief', nivel: 8, foto: 'goblin_chief.png' },
+      { nome: 'Mind Flayer', nivel: 18, foto: 'flayer.jpg' },
+      { nome: 'Raphael', nivel: 12, foto: 'raphael.png' },
+      { nome: 'Spectator', nivel: 8, foto: 'spectator.png' },
       { nome: 'Bulette', nivel: 16, foto: 'bulette.png' },
       { nome: 'Hag', nivel: 20, foto: 'hag.png' },
     ];
@@ -156,23 +160,23 @@ async function seed() {
       RETURNING id;
     `, inimigosBuffers);
 
-    const [mindFlayerId, drowWarriorId, goblinChiefId, buletteId, hagId] = inimigoResult.rows.map(row => row.id);
+    const [mindFlayerId, raphaelId, spectatorId, buletteId, hagId] = inimigoResult.rows.map(row => row.id);
 
     await pool.query(`
       INSERT INTO Inimigo_habilidades (id_inimigo, Nome_habilidade) VALUES 
         (${mindFlayerId}, 'Mind Blast'),
-        (${drowWarriorId}, 'Darkness'),
-        (${goblinChiefId}, 'Cleave'),
+        (${raphaelId}, 'Darkness'),
+        (${spectatorId}, 'Cleave'),
         (${buletteId}, 'Burrow Attack'),
         (${hagId}, 'Hex');
     `);
 
     const npcs = [
       { nome: 'Volo', tipo: 'Quest Giver', foto: 'volo.png' },
-      { nome: 'Ze\'vlor', tipo: 'Quest Giver', foto: 'zevlor.png' },
-      { nome: 'Kagha', tipo: 'Quest Giver', foto: 'kagha.png' },
-      { nome: 'Halsin', tipo: 'Healer', foto: 'halsin.png' },
-      { nome: 'Minthara', tipo: 'Antagonist', foto: 'minthara.png' },
+      { nome: `Ze''vlor`, tipo: 'Quest Giver', foto: 'zevlor.png' },
+      { nome: 'Kagha', tipo: 'Quest Giver', foto: 'kagha.jpg' },
+      { nome: 'Whithers', tipo: 'Camp follower', foto: 'withers.png' },
+      { nome: 'Minthara', tipo: 'Antagonist', foto: 'minthara.jpg' },
     ];
 
     const npcsBuffers = npcs.map(npc => loadImage(npc.foto));
@@ -241,8 +245,8 @@ async function seed() {
     await pool.query(`
       INSERT INTO Combate (Hora, id_regiao, id_inimigo, id_personagem) VALUES 
         ('2024-09-01 14:30:00', ${underdarkId}, ${mindFlayerId}, ${karlachId}),
-        ('2024-09-02 16:00:00', ${villageId}, ${drowWarriorId}, ${shadowheartId}),
-        ('2024-09-03 11:15:00', ${emeraldGroveId}, ${goblinChiefId}, ${galeId}),
+        ('2024-09-02 16:00:00', ${villageId}, ${raphaelId}, ${shadowheartId}),
+        ('2024-09-03 11:15:00', ${emeraldGroveId}, ${spectatorId}, ${galeId}),
         ('2024-09-05 09:45:00', ${silvanusId}, ${buletteId}, ${astarionId}),
         ('2024-09-06 20:30:00', ${moonriseId}, ${hagId}, ${laezelId});
     `);
