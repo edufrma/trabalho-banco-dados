@@ -4,11 +4,10 @@ export async function fetchAllNPCsWithMissions() {
   return await npcRepository.getAllNPCsWithMissions();
 }
 
-export async function addNPC(nome, tipo) {
-  return await npcRepository.createNPC(nome, tipo);
+export async function addNPC(nome, tipo, foto) {
+  return await npcRepository.createNPC(nome, tipo, foto);
 }
 
 export async function fetchAllEnemiesWithSkills() {
-    return await npcRepository.getAllEnemiesWithSkills();
+  return await npcRepository.getAllEnemiesWithSkills();
 }
-
