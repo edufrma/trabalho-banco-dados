@@ -1,26 +1,35 @@
 import * as npcService from "../services/npc.service.js";
 
+import multer from "multer";
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+export const createNPC = [
+  upload.single('foto'),
+  async (req, res) => {
+    const { nome, tipo } = req.body;
+    const foto = req.file ? req.file.buffer : null;
+
+    if (!nome || !tipo) {
+      return res.status(400).json({ message: 'Nome e tipo são obrigatórios.' });
+    }
+
+    try {
+      await npcService.addNPC(nome, tipo, foto);
+      res.sendStatus(201);
+    } catch (error) {
+      res.status(error.status || 500).send(error.message);
+    }
+  }
+];
+
 export async function getAllNPCs(req, res) {
   try {
     const npcs = await npcService.fetchAllNPCsWithMissions();
     res.status(200).json(npcs);
   } catch (error) {
     res.status(500).send('Error fetching NPCs with missions');
-  }
-}
-
-export async function createNPC(req, res) {
-  const { nome, tipo } = req.body;
-
-  if (!nome || !tipo) {
-    return res.status(400).send('Nome e tipo são obrigatórios');
-  }
-
-  try {
-    const npc = await npcService.addNPC(nome, tipo);
-    res.status(201).json(npc);
-  } catch (error) {
-    res.status(500).send('Erro ao adicionar NPC');
   }
 }
 
