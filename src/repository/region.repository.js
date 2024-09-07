@@ -6,5 +6,12 @@ export async function getAllRegions() {
     FROM regiao;
   `;
   const result = await db.query(query);
-  return result.rows;
+  const formattedRegions = result.rows.map(region => {
+    return {
+      ...region,
+      foto: region.foto ? region.foto.toString('base64') : null // Converte o buffer para base64
+    };
+  });
+
+  return formattedRegions;
 }
