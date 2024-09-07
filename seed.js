@@ -40,8 +40,18 @@ async function seed() {
     await pool.query('DELETE FROM classe;');
     await pool.query('DELETE FROM regiao;');
 
-    const imagePath = path.join(__dirname, 'src', 'assets', 'image.png');
-    const imageBuffer = fs.readFileSync(imagePath);
+    const npcImagePath = path.join(__dirname, 'src', 'assets', 'image.png');
+    const npcImageBuffer = fs.readFileSync(npcImagePath);
+
+    const characterImagePath = path.join(__dirname, 'src', 'assets', 'image.png');
+    const characterImageBuffer = fs.readFileSync(characterImagePath);
+
+    const enemyImagePath = path.join(__dirname, 'src', 'assets', 'image.png');
+    const enemyImageBuffer = fs.readFileSync(enemyImagePath);
+
+    const playerImagePath = path.join(__dirname, 'src', 'assets', 'image.png');
+    const playerImageBuffer = fs.readFileSync(playerImagePath);
+
 
     await pool.query(`
       INSERT INTO Jogador (Nome, Senha, Foto) 
@@ -51,7 +61,7 @@ async function seed() {
         ('ShadowheartFan', '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', $1),
         ('ArcaneWizard', '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', $1),
         ('RogueMaster', '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', $1);
-    `, [imageBuffer]);
+    `, [playerImageBuffer]);
 
     const regioesResult = await pool.query(`
       INSERT INTO Regiao (Nome) VALUES 
@@ -105,7 +115,7 @@ async function seed() {
       ('Astarion', 8, 4, 'Rogue'),
       ('Lae''zel', 15, 5, 'Fighter')
       RETURNING id;
-    `);
+    `,[characterImageBuffer]);
 
     const [karlachId, shadowheartId, galeId, astarionId, laezelId] = result.rows.map(row => row.id);
 
@@ -126,7 +136,7 @@ async function seed() {
         ('Bulette', 16),
         ('Hag', 20)
         RETURNING id;
-    `);
+    `, [enemyImageBuffer]);
   
     const [mindFlayerId, drowWarriorId, goblinChiefId, buletteId, hagId] = inimigoResult.rows.map(row => row.id);
     
@@ -147,7 +157,7 @@ async function seed() {
       ('Halsin', 'Healer'),
       ('Minthara', 'Antagonist')
       RETURNING id;
-    `);
+    `,[npcImageBuffer]);
 
     const [voloId, zevlorId, kaghaId, halsinId, mintharaId] = npcResult.rows.map(row => row.id);
 

@@ -1,6 +1,7 @@
 CREATE TABLE Regiao (
     id SERIAL PRIMARY KEY,
-    Nome VARCHAR(255)
+    Nome VARCHAR(255),
+    Foto BYTEA
 );
 
 CREATE TABLE Classe (
@@ -24,9 +25,11 @@ CREATE TABLE Personagem (
     id SERIAL PRIMARY KEY,
     Nome VARCHAR(255),
     Nivel INTEGER,
-    Controlador VARCHAR(255),
+    Controlador INTEGER,
     Nome_classe VARCHAR(255),
-    FOREIGN KEY (Nome_classe) REFERENCES Classe(Nome)
+    Foto BYTEA,
+    FOREIGN KEY (Nome_classe) REFERENCES Classe(Nome),
+    FOREIGN KEY (Controlador) REFERENCES Jogador(Id)
 );
 
 CREATE TABLE Personagem_habilidades (
@@ -40,7 +43,8 @@ CREATE TABLE Personagem_habilidades (
 CREATE TABLE Inimigo (
     id SERIAL PRIMARY KEY,
     Nome VARCHAR(255),
-    Nivel INTEGER
+    Nivel INTEGER,
+    Foto BYTEA
 );
 
 CREATE TABLE Inimigo_habilidades (
@@ -52,10 +56,11 @@ CREATE TABLE Inimigo_habilidades (
 );
 
 CREATE TABLE Combate (
-    Hora TIMESTAMP PRIMARY KEY,
+    Hora TIMESTAMP,
     id_regiao INTEGER,
     id_inimigo INTEGER,
     id_personagem INTEGER,
+    PRIMARY KEY (Hora, id_regiao, id_inimigo, id_personagem)
     FOREIGN KEY (id_regiao) REFERENCES Regiao(id),
     FOREIGN KEY (id_inimigo) REFERENCES Inimigo(id),
     FOREIGN KEY (id_personagem) REFERENCES Personagem(id)
@@ -64,7 +69,8 @@ CREATE TABLE Combate (
 CREATE TABLE NPC (
     id SERIAL PRIMARY KEY,
     Nome VARCHAR(255),
-    Tipo VARCHAR(255)
+    Tipo VARCHAR(255),
+    Foto BYTEA
 );
 
 CREATE TABLE Item (
@@ -134,7 +140,6 @@ CREATE TABLE Jogador (
     Foto bytea
 );
 
-
 CREATE TABLE Sessao (
     id SERIAL PRIMARY KEY,
     id_jogador INTEGER,
@@ -142,4 +147,3 @@ CREATE TABLE Sessao (
     expiration TIMESTAMP NOT NULL,
     FOREIGN KEY (id_jogador) REFERENCES Jogador(id)
 );
-
