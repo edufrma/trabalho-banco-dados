@@ -19,3 +19,7 @@ export async function updatePersonagem(id, nivel, nome_classe, foto) {
 export async function deletePersonagem(id) {
     return await personagemRepository.deletePersonagem(id);
 }
+
+export async function fetchAllClasses() {
+    return await personagemRepository.getAllClasses();
+}
