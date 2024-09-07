@@ -51,3 +51,12 @@ export async function deletePersonagem(id) {
     `;
     await db.query(query, [id]);
 }
+
+export async function getAllClasses() {
+  const query = `
+    SELECT id, nome, descricao
+    FROM classes;
+  `;
+  const result = await db.query(query);
+  return result.rows;
+}
