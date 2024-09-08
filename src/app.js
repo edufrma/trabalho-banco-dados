@@ -8,6 +8,7 @@ import npcRouter from "./routers/npc.router.js";
 import skillsRouter from "./routers/skills.router.js";
 import questsRouter from "./routers/quests.router.js";
 import regionRouter from "./routers/region.router.js";
+import itemRouter from "./routers/item.router.js";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(npcRouter);
 app.use(skillsRouter);
 app.use(questsRouter);
 app.use(regionRouter);
+app.use(itemRouter);
 
 const port = process.env.PORT || 4000;
 

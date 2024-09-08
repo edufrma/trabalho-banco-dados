@@ -1,4 +1,4 @@
-import * as itemRepository from '../repositories/item.repository.js';
+import * as itemRepository from '../repository/item.repository.js'
 
 export async function fetchPersonagemItens() {
   return await itemRepository.getPersonagemItens();
