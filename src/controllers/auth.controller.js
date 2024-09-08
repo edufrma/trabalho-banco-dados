@@ -3,6 +3,7 @@ import multer from "multer";
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+
 export async function signUp(req, res) {
   const { nome, senha } = req.body;
   const foto = req.file ? req.file.buffer : null; 
@@ -19,20 +20,8 @@ export async function signUp(req, res) {
   }
 }
 
-
 export const uploadPhoto = upload.single('foto'); 
 
-// export async function signIn(req, res) {
-//   const { nome, senha } = req.body; 
-
-//   try {
-//     const tokenData = await authService.signIn(nome, senha); 
-//     res.setHeader('Authorization', `Bearer ${tokenData.token}`);
-//     res.status(200).send({ token: tokenData.token, username: tokenData.username });
-//   } catch (error) {
-//     res.status(error.status || 500).send(error.message);
-//   }
-// }
 export async function signIn(req, res) {
   const { nome, senha } = req.body;
 
@@ -49,8 +38,6 @@ export async function signIn(req, res) {
   }
 }
 
-
-
 export async function logout(req, res) {
   const userId = res.locals.user_id;
   const token = req.headers.authorization?.replace('Bearer ', '');
@@ -60,5 +47,25 @@ export async function logout(req, res) {
     res.send('Logout bem-sucedido');
   } catch (error) {
     res.status(error.status || 500).send(error.message);
+  }
+}
+
+export async function changePassword(req, res) {
+  const { currentPassword, newPassword } = req.body;
+  const userId = req.user.id; 
+
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ message: 'Senha atual e nova senha são obrigatórias.' });
+  }
+
+  try {
+    const result = await authService.updatePassword(userId, currentPassword, newPassword);
+    if (!result.success) {
+      return res.status(400).json({ message: result.message });
+    }
+
+    return res.status(200).json({ message: 'Senha atualizada com sucesso!' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Erro ao atualizar a senha.', error: error.message });
   }
 }
