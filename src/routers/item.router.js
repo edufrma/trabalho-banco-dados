@@ -4,6 +4,6 @@ import { tokenValidation } from '../middlewares/token.validation.js';
 
 const itemRouter = express.Router();
 
-itemRouter.get('/personagens-itens', tokenValidation, getPersonagemItens);
+itemRouter.get('/items', tokenValidation, getPersonagemItens);
 
 export default itemRouter;
