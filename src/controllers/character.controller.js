@@ -1,5 +1,5 @@
 import * as personagemService from '../services/character.service.js';
-import multer from "multer";
+import multer from 'multer';
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -7,22 +7,23 @@ const upload = multer({ storage: storage });
 export const createPersonagem = [
   upload.single('foto'),
   async (req, res) => {
-    const { nome, nivel, nome_classe } = req.body;
-    const controladorId = res.locals.user.id; 
-    const foto = req.file ? req.file.buffer : null;
-
-    if (!nome || !nivel || !nome_classe) {
-      return res.status(400).json({ message: 'Nome, nível e classe são obrigatórios.' });
+    const { nome, nome_classe } = req.body;  
+    const foto = req.file ? req.file.buffer : null;  
+    const controladorId = res.locals.user.id;  
+    const nivel = 1;
+    if (!nome || !nome_classe) {
+      return res.status(400).json({ message: 'Nome e classe do personagem são obrigatórios.' });
     }
 
     try {
       await personagemService.createPersonagem(nome, nivel, nome_classe, controladorId, foto);
-      res.sendStatus(201);
+      res.status(201).send('Personagem criado com sucesso');
     } catch (error) {
       res.status(error.status || 500).send(error.message);
     }
   }
 ];
+
 
 export const updatePersonagem = [
   upload.single('foto'),

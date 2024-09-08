@@ -7,10 +7,13 @@ export async function createPersonagem(nome, nivel, nome_classe, controladorId, 
     RETURNING id, encode(foto, 'base64') AS foto;
   `;
   const values = [nome, nivel, nome_classe, controladorId, foto];
+  
   const result = await db.query(query, values);
   
   return result.rows[0].id;
 }
+
+
 
 export async function getPersonagensByControlador(controladorId) {
     const query = `

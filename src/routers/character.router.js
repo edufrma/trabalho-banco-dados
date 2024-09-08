@@ -6,7 +6,7 @@ import multer from 'multer';
 const personagemRouter = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
-personagemRouter.post('/personagem', tokenValidation, upload.single('foto'), createPersonagem);
+personagemRouter.post('/personagem', tokenValidation, createPersonagem);
 personagemRouter.get('/personagens', tokenValidation, getPersonagensByControlador);
 personagemRouter.put('/personagem/:id', tokenValidation, upload.single('foto'), updatePersonagem);
 personagemRouter.delete('/personagem/:id', tokenValidation, deletePersonagem);
