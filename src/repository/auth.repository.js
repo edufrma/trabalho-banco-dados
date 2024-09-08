@@ -76,3 +76,15 @@ export async function updateUserPhoto(userId, foto) {
   await db.query(query, values);
 }
 
+export async function findUserById(userId) {
+  const query = 'SELECT id, senha FROM jogador WHERE id = $1';
+  const values = [userId];
+  const result = await db.query(query, values);
+  return result.rows[0];
+}
+
+export async function updateUserPassword(userId, hashedPassword) {
+  const query = 'UPDATE jogador SET senha = $1 WHERE id = $2';
+  const values = [hashedPassword, userId];
+  await db.query(query, values);
+}
