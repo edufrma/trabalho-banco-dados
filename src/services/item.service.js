@@ -1,5 +1,5 @@
 import * as itemRepository from '../repository/item.repository.js'
 
-export async function fetchPersonagemItens() {
-  return await itemRepository.getPersonagemItens();
+export async function fetchPersonagemItensByControlador(controladorId) {
+    return await itemRepository.getPersonagemItensByControlador(controladorId);
 }
