@@ -40,6 +40,7 @@ async function seed() {
     await pool.query('DELETE FROM regiao;');
 
     const jogadores = [
+      { nome: 'admin', senha: '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', foto: 'image.png' },
       { nome: 'TesteJogador', senha: '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', foto: 'image.png' },
       { nome: 'GamerKarlach', senha: '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', foto: 'image.png' },
       { nome: 'ShadowheartFan', senha: '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', foto: 'image.png' },
@@ -52,14 +53,19 @@ async function seed() {
       return fs.readFileSync(imagePath);
     };
 
-    const jogadorBuffers = jogadores.map(jogador => loadImage(jogador.foto));
+    for (const jogador of jogadores) {
+      const jogadorExistente = await pool.query('SELECT * FROM Jogador WHERE Nome = $1', [jogador.nome]);
 
-    const jogadorValues = jogadores.map((jogador, index) => `('${jogador.nome}', '${jogador.senha}', $${index + 1})`).join(', ');
-    await pool.query(`
-      INSERT INTO Jogador (Nome, Senha, Foto) 
-      VALUES 
-        ${jogadorValues};
-    `, jogadorBuffers);
+      if (jogadorExistente.rows.length === 0) {
+        const jogadorBuffer = loadImage(jogador.foto);
+        await pool.query(`
+          INSERT INTO Jogador (Nome, Senha, Foto) 
+          VALUES ($1, $2, $3);
+        `, [jogador.nome, jogador.senha, jogadorBuffer]);
+      } else {
+        console.log(`Jogador com o nome ${jogador.nome} já existe e não será inserido novamente.`);
+      }
+    }
 
     const regioes = [
       { nome: 'Underdark', foto: 'underdark.jpg' },
@@ -203,7 +209,12 @@ async function seed() {
         ('Leather Armor of Agility', 250.00), 
         ('Robes of the Archmage', 550.00), 
         ('Chainmail of Command', 400.00), 
-        ('Helm of Balduran', 100.00); 
+        ('Helm of Balduran', 100.00),
+        ('Potion of Healing', 50.00), 
+        ('Potion of Greater Healing', 100.00),
+        ('Potion of Superior Healing', 200.00),
+        ('Potion of Invisibility', 500.00),
+        ('Potion of Speed', 300.00);
     `);
 
     await pool.query(`
@@ -272,10 +283,15 @@ async function seed() {
     await pool.query(`
       INSERT INTO Personagens_itens (id_personagem, Nome_item, Quantidade) VALUES 
         (${karlachId}, 'Sword of Justice', 1),
+        (${karlachId}, 'Potion of Healing', 2),
         (${shadowheartId}, 'Amulet of Selune', 1),
+        (${shadowheartId}, 'Potion of Greater Healing', 1),
         (${galeId}, 'Blooded Greataxe', 1),
+        (${galeId}, 'Potion of Superior Healing', 1),
         (${astarionId}, 'Boots of Speed', 1),
-        (${laezelId}, 'Crossbow', 1);
+        (${astarionId}, 'Potion of Invisibility', 1),
+        (${laezelId}, 'Crossbow', 1),
+        (${laezelId}, 'Potion of Speed', 1);
     `);
 
     console.log('Seed concluído com sucesso');
