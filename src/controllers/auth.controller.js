@@ -52,8 +52,7 @@ export async function logout(req, res) {
 
 export async function changePassword(req, res) {
   const { currentPassword, newPassword } = req.body;
-  const userId = req.user.id; 
-
+  const userId = res.locals.user.id;
   if (!currentPassword || !newPassword) {
     return res.status(400).json({ message: 'Senha atual e nova senha são obrigatórias.' });
   }
