@@ -149,13 +149,3 @@ CREATE TABLE Sessao (
     expiration TIMESTAMP NOT NULL,
     FOREIGN KEY (id_jogador) REFERENCES Jogador(id)
 );
-
--- DO
--- $$
--- BEGIN
---     IF NOT EXISTS (SELECT 1 FROM jogador WHERE id = 1) THEN
---         INSERT INTO jogador (id, nome, senha, foto) 
---         VALUES (1, 'admin', '$2b$10$YYi2vDGZaCf1rqYbQ1YGZe9/4C5xwG2MxaA7.u9TwozgnFH0GlETO', NULL); 
---     END IF;
--- END
--- $$;
