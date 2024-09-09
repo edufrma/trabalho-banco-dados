@@ -48,21 +48,24 @@ export async function updateUserPhoto(userId, foto) {
   await authRepository.updateUserPhoto(userId, foto);
 }
 
-export async function updatePassword(userId, currentPassword, newPassword) {
-  const user = await findUserById(userId);
+export async function changePassword(userId, currentPassword, newPassword) {
+  const user = await authRepository.findUserById(userId); 
 
   if (!user) {
-    return { success: false, message: 'Usuário não encontrado' };
+    const error = new Error('Usuário não encontrado.');
+    error.status = 404;
+    throw error;
   }
 
-  const isPasswordMatch = await bcrypt.compare(currentPassword, user.senha);
-
-  if (!isPasswordMatch) {
-    return { success: false, message: 'Senha atual incorreta' };
+  const passwordMatch = await bcrypt.compare(currentPassword, user.senha);
+  if (!passwordMatch) {
+    const error = new Error('A senha atual está incorreta.');
+    error.status = 401;
+    throw error;
   }
 
   const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-  await updateUserPassword(userId, hashedNewPassword);
+  await authRepository.updateUserPassword(userId, hashedNewPassword); 
 
-  return { success: true, message: 'Senha atualizada com sucesso' };
+  return;
 }

@@ -53,18 +53,17 @@ export async function logout(req, res) {
 export async function changePassword(req, res) {
   const { currentPassword, newPassword } = req.body;
   const userId = res.locals.user.id;
+
   if (!currentPassword || !newPassword) {
     return res.status(400).json({ message: 'Senha atual e nova senha são obrigatórias.' });
   }
 
   try {
-    const result = await authService.updatePassword(userId, currentPassword, newPassword);
-    if (!result.success) {
-      return res.status(400).json({ message: result.message });
-    }
+    await authService.changePassword(userId, currentPassword, newPassword);
 
-    return res.status(200).json({ message: 'Senha atualizada com sucesso!' });
+    return res.status(200).json({ success: true, message: 'Senha atualizada com sucesso.' });
   } catch (error) {
+    console.error('Erro ao atualizar a senha:', error);
     return res.status(500).json({ message: 'Erro ao atualizar a senha.', error: error.message });
   }
 }
