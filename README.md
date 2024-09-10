@@ -3,6 +3,7 @@
 # Trabalho de Banco de Dados - Sistema de Gerenciamento de RPG
 
 📝 **Descrição**
+
 Este projeto implementa um sistema de gerenciamento de RPG com diversas entidades e funcionalidades que permitem a criação e o controle de personagens, missões, itens, e combates, além de possibilitar a gestão de jogadores e suas sessões de login. O objetivo é criar um banco de dados robusto e funcional que suporte todas as operações necessárias para o jogo.
 
 ---
