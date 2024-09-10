@@ -125,7 +125,6 @@ async function seed() {
       { nome: 'Gale', nivel: 14, controlador: 1, classe: 'Wizard', foto: 'gale.png' },
       { nome: 'Astarion', nivel: 8, controlador: 1, classe: 'Rogue', foto: 'astarion.png' },
       { nome: `Lae''zel`, nivel: 15, controlador: 1, classe: 'Fighter', foto: 'laezel.png' },
-      { nome: 'Wyll', nivel: 15, controlador: 1, classe: 'Fighter', foto: 'wyll.png'},
       { nome: 'Halsin', nivel: 20, controlador: 1, classe: 'Druid', foto: 'halsin.png'},
     ];
 
@@ -286,7 +285,7 @@ async function seed() {
         (${karlachId}, 'Potion of Healing', 2),
         (${shadowheartId}, 'Amulet of Selune', 1),
         (${shadowheartId}, 'Potion of Greater Healing', 1),
-        (${galeId}, 'Blooded Greataxe', 1),
+        (${galeId}, 'Magic Missile Wand', 1),
         (${galeId}, 'Potion of Superior Healing', 1),
         (${astarionId}, 'Boots of Speed', 1),
         (${astarionId}, 'Potion of Invisibility', 1),
