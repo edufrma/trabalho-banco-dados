@@ -288,12 +288,10 @@ Para executar o projeto, siga as etapas abaixo:
 3. Execute o seed para popular o banco de dados:
    ```bash
    node seed.js
-  ```
 
 4. Compile e execute o programa:
    ```bash
     npm run dev
-  ```
 
 5. Acesse o programa e explore as funcionalidades de gerenciamento de RPG!
 
