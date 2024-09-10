@@ -21,18 +21,72 @@ Este projeto implementa um sistema de gerenciamento de RPG com diversas entidade
 - O modelo de entidade relacionamento foi desenvolvido utilizando [nome da ferramenta de modelagem].
 - Inclui as entidades: `Personagem`, `Classe`, `Habilidades`, `Inimigo`, `Regiao`, `Combate`, `Item`, `NPC`, `Missoes`, `Recompensa`, e `Jogador`.
 - As entidades estão devidamente normalizadas para garantir a integridade dos dados e a eficiência nas operações.
-
+  
+![MER](docs/MER_da_independencia.png)
 ---
 
 💾 **Modelo Relacional**
 - O modelo relacional foi gerado a partir do MER, mapeando cada entidade para uma tabela no banco de dados.
 - As relações entre as tabelas foram definidas com chaves primárias e estrangeiras, assegurando a consistência referencial.
 
+![MR](docs/MR_da_independencia.png)
 ---
 
 🧠 **Consultas em Álgebra Relacional**
 - O projeto inclui cinco consultas em álgebra relacional, cada uma envolvendo pelo menos três tabelas, demonstrando a complexidade e a robustez das interações entre os dados.
 
+```
+#pega o nome, a classe e as habilidades de um personagem
+(usa as tabelas personagem, classe, personagem_habilidades e habilidades)
+
+SELECT p.Nome AS Personagem, c.Nome AS Classe, h.Nome AS Habilidade
+FROM Personagem p
+JOIN Classe c ON p.Nome_classe = c.Nome
+JOIN Personagem_habilidades ph ON p.id = ph.id_personagem
+JOIN Habilidades h ON ph.Nome_habilidade = h.Nome;
+
+==============================================================================
+
+#lista os combates com a hora, regiao, nome dos inimigos e nome dos jogdores
+(usa as tabelas combate, inimigo, personagem e região)
+
+SELECT c.Hora, i.Nome AS Inimigo, p.Nome AS Personagem, r.Nome AS Regiao
+FROM Combate c
+JOIN Inimigo i ON c.id_inimigo = i.id
+JOIN Personagem p ON c.id_personagem = p.id
+JOIN Regiao r ON c.id_regiao = r.id;
+
+==============================================================================
+
+#lista as missões, com seus ojetivos e items de recompensa
+(usa as tabelas missões, recompensa e item)
+
+SELECT m.Nome AS Missao, m.Objetivo, i.Nome AS Item, r.Quantidade
+FROM Missoes m
+JOIN Recompensa r ON m.Nome = r.Nome_missao
+JOIN Item i ON r.Nome_item = i.Nome;
+
+==============================================================================
+
+#lista os personagens com seu inventario e quantidade de items
+(usa as tabelas personagem, personagens_itens e Item)
+
+SELECT p.Nome AS Personagem, i.Nome AS Item, pi.Quantidade
+FROM Personagem p
+JOIN Personagens_itens pi ON p.id = pi.id_personagem
+JOIN Item i ON pi.Nome_item = i.Nome;
+
+==============================================================================
+
+#lista as missões, os npcs que fornecem a missão e os personagens que atualmente participam da missão
+(Usa a tabela missão, npc, participa_missões e personagem)
+
+SELECT m.Nome AS Missao, npc.Nome AS NPC, p.Nome AS Personagem
+FROM Missoes m
+JOIN NPC npc ON m.id_fornecedor = npc.id
+JOIN Participa_missoes pm ON m.Nome = pm.Nome_missao
+JOIN Personagem p ON pm.id_personagem = p.id;
+```
 ---
 
 📝 **Avaliação das Formas Normais**
