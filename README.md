@@ -105,6 +105,7 @@ JOIN Personagem p ON pm.id_personagem = p.id;
 📂 **Camada de Persistência**
 - O projeto conta com uma camada de persistência que permite a interação entre a interface gráfica do jogo e o banco de dados.
 - A arquitetura e o código fonte estão disponíveis no repositório do GitHub, junto com um diagrama que detalha essa camada.
+  ![DM](docs/diagrama_camada_mapeamento.png)
 
 ---
 
