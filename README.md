@@ -91,6 +91,7 @@ JOIN Personagem p ON pm.id_personagem = p.id;
 
 📝 **Avaliação das Formas Normais**
 - As tabelas foram analisadas e normalizadas até a terceira forma normal, assegurando a eliminação de redundâncias e a minimização de anomalias de inserção, atualização, e exclusão.
+  
 ![FN](docs/Formas-normais.png)
 
 ---
