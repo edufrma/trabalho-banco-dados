@@ -96,7 +96,7 @@ JOIN Personagem p ON pm.id_personagem = p.id;
 ---
 
 📜 **Script SQL**
-- O script SQL utilizado para gerar o banco de dados está disponível no repositório do projeto no GitHub.
+- O script SQL utilizado para gerar o banco de dados é o arquivo "dump.sql" e está disponível no repositório do projeto no GitHub.
 - Inclui a criação de todas as tabelas, índices, e a inserção de registros iniciais para teste.
 
 ---
@@ -114,13 +114,13 @@ JOIN Personagem p ON pm.id_personagem = p.id;
 ---
 
 👁️ **View e Procedure**
-- O banco de dados implementa uma `View` para simplificar consultas complexas.
+- O banco de dados implementa uma `View` (arquivo "view.sql") para simplificar consultas complexas.
 - Uma `Procedure` foi criada com comandos condicionais para automatizar operações frequentes no banco de dados.
 
 ---
 
 📦 **Inserção de Dados Binários**
-- O projeto inclui a funcionalidade de inserir dados binários, como fotos ou documentos, diretamente no banco de dados.
+- As tabelas REGIAO, JOGADOR, PERSONAGEM, INIMIGO e NPC têm imagens inseridas como dados binários.
 
 ---
 
