@@ -2,6 +2,15 @@
 
 # Trabalho de Banco de Dados - Sistema de Gerenciamento de RPG
 
+---
+:floppy_disk: **Membros do grupo**
+- Albert Teixeira Soares - 21/1035108
+- Eduardo Freire Martins - 19/0105526
+- João Lucas Sales Aragão - 19/0015225
+- Nathália P. Assis - 17/0153169
+
+---
+
 📝 **Descrição**
 
 Este projeto implementa um sistema de gerenciamento de RPG com diversas entidades e funcionalidades que permitem a criação e o controle de personagens, missões, itens, e combates, além de possibilitar a gestão de jogadores e suas sessões de login. O objetivo é criar um banco de dados robusto e funcional que suporte todas as operações necessárias para o jogo.
